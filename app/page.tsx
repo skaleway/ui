@@ -1,3 +1,4 @@
+import Container from "@/components/container";
 import { Icons } from "@/components/icons";
 import { siteConfig } from "@/lib/site";
 import Image from "next/image";
@@ -5,15 +6,14 @@ import Link from "next/link";
 
 export default function Home() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-muted font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col  justify-between py-32 px-8 md:px-16 bg-background sm:items-start border-x">
+    <Container className="max-w-6xl w-full">
+      <div className="max-w-3xl justify-between flex-1 w-full gap-20 flex flex-col mx-auto">
         <Icons.logoLight />
-
-        <div className="flex flex-col items-center gap-6 text-start">
-          <h1 className="max-w-xl md:text-3xl text-2xl font-mono font-semibold leading-10 tracking-tight">
+        <div className="flex flex-col gap-6 ">
+          <h1 className="md:text-3xl text-2xl font-mono font-semibold leading-10 tracking-tight">
             Beautiful, fast, and responsive UI Templates.
           </h1>
-          <p className="max-w-xl md:text-lg text-base leading-8 text-muted-foreground">
+          <p className="md:text-lg text-base leading-8 text-muted-foreground ">
             Looking for a starting point for your next project? Browse our
             collection of open-source{" "}
             <Link
@@ -42,7 +42,7 @@ export default function Home() {
             @{siteConfig.author.name}
           </Link>
         </div>
-      </main>
-    </div>
+      </div>
+    </Container>
   );
 }
