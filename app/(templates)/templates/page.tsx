@@ -1,3 +1,5 @@
+import Container from "@/components/container";
+
 export default function TemplatesPage() {
-  return <div>Templates</div>;
+  return <Container className="max-w-6xl font-mono">Templates</Container>;
 }
