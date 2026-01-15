@@ -11,5 +11,6 @@ export const siteConfig = {
     name: "skaleway",
     url: "https://skaleway.com",
     email: "contact@skaleway.com",
+    avatar: "/skaleway.jpg",
   },
 };
