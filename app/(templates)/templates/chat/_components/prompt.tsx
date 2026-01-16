@@ -3,7 +3,6 @@ import { Textarea } from "@/components/ui/textarea";
 import {
   Album02Icon,
   ArrowUp02Icon,
-  BrainIcon,
   PlusSignIcon,
   QuillWrite01Icon,
   SourceCodeIcon,

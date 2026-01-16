@@ -1,9 +1,9 @@
+import { ModeToggle } from "@/components/mode-toggle";
 import { Button } from "@/components/ui/button";
-import { HugeiconsIcon } from "@hugeicons/react";
-import { Notification01Icon, Search01Icon } from "@hugeicons/core-free-icons";
-import React from "react";
 import { Input } from "@/components/ui/input";
 import { Kbd, KbdGroup } from "@/components/ui/kbd";
+import { Notification01Icon, Search01Icon } from "@hugeicons/core-free-icons";
+import { HugeiconsIcon } from "@hugeicons/react";
 
 export const CommerceHeader = () => {
   return (
@@ -20,10 +20,13 @@ export const CommerceHeader = () => {
           <Kbd>K</Kbd>
         </KbdGroup>
       </div>
-      <Button variant="outline" size="icon" className="relative">
-        <HugeiconsIcon icon={Notification01Icon} />
-        <span className="absolute right-1 top-1 size-2 rounded-full bg-destructive" />
-      </Button>
+      <div className="flex items-center gap-2">
+        <Button variant="outline" size="icon" className="relative">
+          <HugeiconsIcon icon={Notification01Icon} />
+          <span className="absolute right-1 top-1 size-2 rounded-full bg-destructive" />
+        </Button>
+        <ModeToggle />
+      </div>
     </header>
   );
 };
