@@ -1,5 +1,6 @@
 import { Icons } from "./icons";
 import { ModeToggle } from "./mode-toggle";
+import Link from "next/link";
 
 export const Header = () => {
   return (
@@ -7,7 +8,10 @@ export const Header = () => {
       <Icons.logoDark className="hidden dark:block" />
       <Icons.logoLight className="block dark:hidden" />
 
-      <ModeToggle />
+      <div className="flex items-center gap-4">
+        <Link href="/templates">Templates</Link>
+        <ModeToggle />
+      </div>
     </header>
   );
 };
