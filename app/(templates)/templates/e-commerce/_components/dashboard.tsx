@@ -1,5 +1,6 @@
 import { CommerceCards } from "./cards";
 import { CommerceChart } from "./chart";
+import { CommerceProducts } from "./products";
 
 export const CommerceDashboard = () => {
   return (
@@ -12,6 +13,7 @@ export const CommerceDashboard = () => {
       </div>
       <CommerceCards />
       <CommerceChart />
+      <CommerceProducts />
     </div>
   );
 };

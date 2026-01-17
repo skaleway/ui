@@ -144,8 +144,8 @@ export const CommerceChart = () => {
   });
 
   return (
-    <div className="border rounded-xl">
-      <div className="flex items-center gap-2 space-y-0 sm:flex-row bg-sidebar/50 p-4">
+    <div className="border rounded-xl overflow-hidden bg-sidebar/50">
+      <div className="flex items-center gap-2 space-y-0 sm:flex-row p-4">
         <h2 className="text-lg font-semibold">Sales Revenue</h2>
 
         <Select value={timeRange} onValueChange={setTimeRange}>
@@ -168,7 +168,7 @@ export const CommerceChart = () => {
           </SelectContent>
         </Select>
       </div>
-      <div className="border-t rounded-xl">
+      <div className="border-t rounded-xl bg-background">
         <ChartContainer
           config={chartConfig}
           className="aspect-auto h-100 w-full"
