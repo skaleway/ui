@@ -1,4 +1,5 @@
 import { CommerceCards } from "./cards";
+import { CommerceChart } from "./chart";
 
 export const CommerceDashboard = () => {
   return (
@@ -9,9 +10,8 @@ export const CommerceDashboard = () => {
           Visual summary of key sales performance and your data
         </p>
       </div>
-      <div>
-        <CommerceCards />
-      </div>
+      <CommerceCards />
+      <CommerceChart />
     </div>
   );
 };
