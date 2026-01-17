@@ -1,5 +1,6 @@
 "use client";
 
+import React, { useState } from "react";
 import { Input } from "@/components/ui/input";
 import {
   Table,
@@ -9,8 +10,30 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Search02Icon } from "@hugeicons/core-free-icons";
+import {
+  ArrowLeft01Icon,
+  ArrowRight01Icon,
+  ArrowLeftDoubleIcon,
+  ArrowRightDoubleIcon,
+  Search02Icon,
+} from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
+import {
+  ColumnDef,
+  flexRender,
+  getCoreRowModel,
+  getFilteredRowModel,
+  getPaginationRowModel,
+  useReactTable,
+} from "@tanstack/react-table";
+import { Button } from "@/components/ui/button";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 type Product = {
   name: string;
@@ -270,7 +293,135 @@ const products: Product[] = [
   },
 ];
 
+export const columns: ColumnDef<Product>[] = [
+  {
+    id: "select",
+    header: ({ table }) => (
+      <input
+        type="checkbox"
+        className="translate-y-0.5 rounded border-gray-300 text-primary focus:ring-primary h-4 w-4"
+        checked={
+          table.getIsAllPageRowsSelected() ||
+          (table.getIsSomePageRowsSelected() && "indeterminate") ===
+            "indeterminate"
+        }
+        onChange={(value) =>
+          table.toggleAllPageRowsSelected(!!value.target.checked)
+        }
+        aria-label="Select all"
+      />
+    ),
+    cell: ({ row }) => (
+      <input
+        type="checkbox"
+        className="translate-y-0.5 rounded border-gray-300 text-primary focus:ring-primary h-4 w-4"
+        checked={row.getIsSelected()}
+        onChange={(value) => row.toggleSelected(!!value.target.checked)}
+        aria-label="Select row"
+      />
+    ),
+  },
+  {
+    accessorKey: "name",
+    header: "Product",
+    cell: ({ row }) => (
+      <div className="flex items-center gap-3">
+        <img
+          src={row.original.image}
+          alt={row.original.name}
+          className="size-10 rounded-lg object-cover"
+        />
+        <span className="font-medium text-foreground">{row.original.name}</span>
+      </div>
+    ),
+  },
+  {
+    accessorKey: "status",
+    header: "Status",
+    cell: ({ row }) => (
+      <span
+        className={`px-2 py-1 rounded-full text-[10px] font-medium leading-none ${
+          row.original.status === "instock"
+            ? "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400"
+            : "bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400"
+        }`}
+      >
+        {row.original.status === "instock" ? "In Stock" : "Out of Stock"}
+      </span>
+    ),
+  },
+  {
+    accessorKey: "category",
+    header: "Category",
+    cell: ({ row }) => (
+      <span className="text-muted-foreground">{row.original.category}</span>
+    ),
+  },
+  {
+    accessorKey: "revenue",
+    header: "Revenue",
+    cell: ({ row }) => (
+      <span className="font-medium text-foreground">
+        ${row.original.revenue.toLocaleString()}
+      </span>
+    ),
+  },
+  {
+    accessorKey: "sales",
+    header: "Sales",
+    cell: ({ row }) => (
+      <span className="text-muted-foreground">{row.original.sales}</span>
+    ),
+  },
+  {
+    id: "reviews",
+    header: "Reviews",
+    cell: ({ row }) => (
+      <div className="flex items-center gap-1.5">
+        <span className="font-medium">{row.original.reviews.rating}</span>
+        <span className="text-muted-foreground text-xs">
+          ({row.original.reviews.count})
+        </span>
+      </div>
+    ),
+  },
+  {
+    accessorKey: "views",
+    header: "Views",
+    cell: ({ row }) => (
+      <span className="text-muted-foreground">{row.original.views}</span>
+    ),
+  },
+];
+
 export const CommerceProducts = () => {
+  const [globalFilter, setGlobalFilter] = useState("");
+  const [rowSelection, setRowSelection] = useState({});
+  const [pagination, setPagination] = useState({
+    pageIndex: 0,
+    pageSize: 10,
+  });
+
+  const table = useReactTable({
+    data: products,
+    columns,
+    state: {
+      globalFilter,
+      pagination,
+      rowSelection,
+    },
+    onGlobalFilterChange: setGlobalFilter,
+    onPaginationChange: setPagination,
+    onRowSelectionChange: setRowSelection,
+    getCoreRowModel: getCoreRowModel(),
+    getFilteredRowModel: getFilteredRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
+    globalFilterFn: (row, columnId, filterValue) => {
+      const value = row.getValue(columnId) as string;
+      return value.toLowerCase().includes(filterValue.toLowerCase());
+    },
+  });
+
   return (
     <div className="border rounded-xl overflow-hidden bg-sidebar/50">
       <div className="flex items-center gap-2 space-y-0 sm:flex-row p-4">
@@ -279,65 +430,144 @@ export const CommerceProducts = () => {
         <div className="hidden max-w-sm w-full rounded-lg sm:ml-auto sm:flex relative">
           <HugeiconsIcon
             icon={Search02Icon}
-            className="size-4 absolute left-2 top-1/2 -translate-y-1/2"
+            className="size-4 absolute left-2 top-1/2 -translate-y-1/2 text-muted-foreground"
           />
-          <Input placeholder="Search" className="pl-8" />
+          <Input
+            placeholder="Search"
+            value={globalFilter ?? ""}
+            onChange={(e) => setGlobalFilter(e.target.value)}
+            className="pl-8 bg-background border-none ring-1 ring-border focus-visible:ring-2 focus-visible:ring-primary h-9"
+          />
         </div>
       </div>
-      <div className="border-t rounded-xl bg-background overflow-hidden">
+      <div className="border-t bg-background overflow-hidden relative">
         <Table>
-          <TableHeader className="bg-muted">
-            <TableRow>
-              <TableHead className="w-75 pl-4">Product</TableHead>
-              <TableHead>Status</TableHead>
-              <TableHead>Category</TableHead>
-              <TableHead className="">Revenue</TableHead>
-              <TableHead>Sales</TableHead>
-              <TableHead>Reviews</TableHead>
-              <TableHead>Views</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {products.map((product) => (
-              <TableRow key={product.name}>
-                <TableCell className="font-medium pl-4">
-                  <div className="flex items-center gap-3">
-                    <img
-                      src={product.image}
-                      alt={product.name}
-                      className="size-10 rounded-lg object-cover"
-                    />
-                    <span>{product.name}</span>
-                  </div>
-                </TableCell>
-                <TableCell>
-                  <span
-                    className={`px-2 py-1 rounded-full text-xs font-medium ${
-                      product.status === "instock"
-                        ? "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400"
-                        : "bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400"
-                    }`}
+          <TableHeader className="bg-muted/50 border-b">
+            {table.getHeaderGroups().map((headerGroup) => (
+              <TableRow key={headerGroup.id} className="hover:bg-transparent">
+                {headerGroup.headers.map((header, index) => (
+                  <TableHead
+                    key={header.id}
+                    className={`${index === 0 ? "pl-4" : ""}`}
                   >
-                    {product.status === "instock" ? "In Stock" : "Out of Stock"}
-                  </span>
-                </TableCell>
-                <TableCell>{product.category}</TableCell>
-                <TableCell className="">
-                  ${product.revenue.toLocaleString()}
-                </TableCell>
-                <TableCell>{product.sales}</TableCell>
-                <TableCell className="flex items-center gap-2">
-                  <span> {product.reviews.rating}</span>
-
-                  <span className="text-muted-foreground">
-                    ({product.reviews.count})
-                  </span>
-                </TableCell>
-                <TableCell>{product.views}</TableCell>
+                    {header.isPlaceholder
+                      ? null
+                      : flexRender(
+                          header.column.columnDef.header,
+                          header.getContext()
+                        )}
+                  </TableHead>
+                ))}
               </TableRow>
             ))}
+          </TableHeader>
+          <TableBody>
+            {table.getRowModel().rows?.length ? (
+              table.getRowModel().rows.map((row) => (
+                <TableRow
+                  key={row.id}
+                  data-state={row.getIsSelected() && "selected"}
+                  className="border-b last:border-0"
+                >
+                  {row.getVisibleCells().map((cell, index) => (
+                    <TableCell
+                      key={cell.id}
+                      className={`${index === 0 ? "pl-4" : ""}`}
+                    >
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext()
+                      )}
+                    </TableCell>
+                  ))}
+                </TableRow>
+              ))
+            ) : (
+              <TableRow>
+                <TableCell
+                  colSpan={columns.length}
+                  className="h-24 text-center"
+                >
+                  No results.
+                </TableCell>
+              </TableRow>
+            )}
           </TableBody>
         </Table>
+      </div>
+
+      {/* Footer */}
+      <div className="flex items-center justify-between p-4 border-t bg-background/50 text-sm">
+        <div className="text-muted-foreground">
+          {table.getFilteredSelectedRowModel().rows.length} of{" "}
+          {table.getFilteredRowModel().rows.length} row(s) selected.
+        </div>
+        <div className="flex items-center gap-6 lg:gap-8">
+          <div className="flex items-center gap-2">
+            <p className="text-sm font-medium">Rows per page</p>
+            <Select
+              value={`${table.getState().pagination.pageSize}`}
+              onValueChange={(value) => {
+                table.setPageSize(Number(value));
+              }}
+            >
+              <SelectTrigger className="h-8 w-17.5">
+                <SelectValue
+                  placeholder={table.getState().pagination.pageSize}
+                />
+              </SelectTrigger>
+              <SelectContent side="top">
+                {[10, 20, 30, 40, 50].map((pageSize) => (
+                  <SelectItem key={pageSize} value={`${pageSize}`}>
+                    {pageSize}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+          <div className="flex w-25 items-center justify-center text-sm font-medium">
+            Page {table.getState().pagination.pageIndex + 1} of{" "}
+            {table.getPageCount()}
+          </div>
+          <div className="flex items-center gap-2">
+            <Button
+              variant="outline"
+              className="hidden h-8 w-8 p-0 lg:flex"
+              onClick={() => table.setPageIndex(0)}
+              disabled={!table.getCanPreviousPage()}
+            >
+              <span className="sr-only">Go to first page</span>
+              <HugeiconsIcon icon={ArrowLeftDoubleIcon} className="h-4 w-4" />
+            </Button>
+            <Button
+              variant="outline"
+              className="h-8 w-8 p-0"
+              onClick={() => table.previousPage()}
+              disabled={!table.getCanPreviousPage()}
+            >
+              <span className="sr-only">Go to previous page</span>
+              <HugeiconsIcon icon={ArrowLeft01Icon} className="h-4 w-4" />
+            </Button>
+            <Button
+              variant="outline"
+              className="h-8 w-8 p-0"
+              onClick={() => table.nextPage()}
+              disabled={!table.getCanNextPage()}
+            >
+              <span className="sr-only">Go to next page</span>
+              <HugeiconsIcon icon={ArrowRight01Icon} className="h-4 w-4" />
+            </Button>
+            <Button
+              variant="outline"
+              className="hidden h-8 w-8 p-0 lg:flex"
+              onClick={() => table.setPageIndex(table.getPageCount() - 1)}
+              disabled={!table.getCanNextPage()}
+            >
+              <span className="sr-only">Go to last page</span>
+              <HugeiconsIcon icon={ArrowRightDoubleIcon} className="h-4 w-4" />
+            </Button>
+          </div>
+        </div>
       </div>
     </div>
   );

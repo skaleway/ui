@@ -7,7 +7,7 @@ import { HugeiconsIcon } from "@hugeicons/react";
 
 export const CommerceHeader = () => {
   return (
-    <header className="flex items-center justify-between h-14 border-b px-6">
+    <header className="flex items-center justify-between h-14 border-b px-6 sticky top-0 z-10 bg-background">
       <div className="h-9 max-w-sm w-full relative">
         <HugeiconsIcon
           icon={Search01Icon}
