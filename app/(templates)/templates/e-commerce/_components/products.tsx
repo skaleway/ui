@@ -1,7 +1,14 @@
 "use client";
 
-import React, { useState } from "react";
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import {
   Table,
   TableBody,
@@ -12,8 +19,8 @@ import {
 } from "@/components/ui/table";
 import {
   ArrowLeft01Icon,
-  ArrowRight01Icon,
   ArrowLeftDoubleIcon,
+  ArrowRight01Icon,
   ArrowRightDoubleIcon,
   Search02Icon,
 } from "@hugeicons/core-free-icons";
@@ -26,14 +33,7 @@ import {
   getPaginationRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { Button } from "@/components/ui/button";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { useState } from "react";
 
 type Product = {
   name: string;

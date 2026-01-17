@@ -1,14 +1,14 @@
 import Container from "@/components/container";
 import { Icons } from "@/components/icons";
 import { siteConfig } from "@/lib/site";
-import Image from "next/image";
 import Link from "next/link";
 
 export default function Home() {
   return (
     <Container className="max-w-6xl w-full">
       <div className="max-w-3xl justify-between flex-1 w-full gap-20 flex flex-col mx-auto">
-        <Icons.logoLight />
+        <Icons.logoDark className="hidden dark:block" />
+        <Icons.logoLight className="block dark:hidden" />
         <div className="flex flex-col gap-6 ">
           <h1 className="md:text-3xl text-2xl font-mono font-semibold leading-10 tracking-tight">
             Beautiful, fast, and responsive UI Templates.
