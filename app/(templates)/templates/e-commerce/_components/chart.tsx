@@ -144,11 +144,10 @@ export const CommerceChart = () => {
   });
 
   return (
-    <div className="pt-0">
-      <div className="flex items-center gap-2 space-y-0 py-5 sm:flex-row">
-        <div className="grid flex-1 gap-1">
-          <CardTitle>Sales Revenue</CardTitle>
-        </div>
+    <div className="border rounded-xl">
+      <div className="flex items-center gap-2 space-y-0 sm:flex-row bg-sidebar/50 p-4">
+        <h2 className="text-lg font-semibold">Sales Revenue</h2>
+
         <Select value={timeRange} onValueChange={setTimeRange}>
           <SelectTrigger
             className="hidden w-40 rounded-lg sm:ml-auto sm:flex"
@@ -169,7 +168,7 @@ export const CommerceChart = () => {
           </SelectContent>
         </Select>
       </div>
-      <div className="border rounded-xl">
+      <div className="border-t rounded-xl">
         <ChartContainer
           config={chartConfig}
           className="aspect-auto h-100 w-full"
