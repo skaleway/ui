@@ -440,7 +440,7 @@ export const CommerceProducts = () => {
           />
         </div>
       </div>
-      <div className="border-t bg-background overflow-hidden relative">
+      <div className="border-t bg-background overflow-hidden relative rounded-t-xl">
         <Table>
           <TableHeader className="bg-muted/50 border-b">
             {table.getHeaderGroups().map((headerGroup) => (
