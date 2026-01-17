@@ -1,4 +1,5 @@
 import Container from "@/components/container";
+import { Footer } from "@/components/footer";
 import { Header } from "@/components/header";
 import { Template, templates } from "@/lib/const";
 import { ArrowUpRight01Icon } from "@hugeicons/core-free-icons";
@@ -15,6 +16,7 @@ export default function TemplatesPage() {
           <ProjectCard key={idx} template={template} idx={idx} />
         ))}
       </div>
+      <Footer />
     </Container>
   );
 }

@@ -1,4 +1,5 @@
 import Container from "@/components/container";
+import { Footer } from "@/components/footer";
 import { Header } from "@/components/header";
 import { siteConfig } from "@/lib/site";
 import Link from "next/link";
@@ -31,16 +32,7 @@ export default function Home() {
             </Link>
           </p>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row text-muted-foreground">
-          Let us help you build your next project{" "}
-          <Link
-            href={siteConfig.author.url}
-            target="_blank"
-            className="font-medium text-foreground font-mono"
-          >
-            @{siteConfig.author.name}
-          </Link>
-        </div>
+        <Footer />
       </div>
     </Container>
   );

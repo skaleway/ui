@@ -13,4 +13,9 @@ export const siteConfig = {
     email: "contact@skaleway.com",
     avatar: "/skaleway.jpg",
   },
+  socials: {
+    twitter: "https://twitter.com/skaleway",
+    github: "https://github.com/skaleway",
+    linkedin: "https://linkedin.com/company/skaleway",
+  },
 };
